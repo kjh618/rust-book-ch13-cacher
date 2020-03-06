@@ -40,13 +40,28 @@ mod tests {
     #[test]
     fn test1() {
         let calculation = |x| {
-            println!("[calculation({}) called!]", x);
+            println!("[test1] calculation({}) called!", x);
             x + 1
         };
-
         let mut cacher = Cacher::new(calculation);
         assert_eq!(cacher.value(1), 2);
         assert_eq!(cacher.value(1), 2);
         assert_eq!(cacher.value(2), 3);
+        assert_eq!(cacher.value(1), 2);
+        assert_eq!(cacher.value(2), 3);
+    }
+
+    #[test]
+    fn test2() {
+        let calculation = |x: bool| {
+            println!("[test2] calculation({}) called!", x);
+            !x
+        };
+        let mut cacher = Cacher::new(calculation);
+        assert_eq!(cacher.value(true), false);
+        assert_eq!(cacher.value(true), false);
+        assert_eq!(cacher.value(false), true);
+        assert_eq!(cacher.value(true), false);
+        assert_eq!(cacher.value(false), true);
     }
 }
